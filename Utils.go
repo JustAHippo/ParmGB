@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func Chunks(s string, chunkSize int) []string {
 	if len(s) == 0 {
@@ -91,4 +94,18 @@ func Read(arr []string, from string, to string) string {
 	}
 
 	return out
+}
+
+func normalizePointer(pointer string) string {
+	for {
+		pointer = pointer[1:]
+
+		if !strings.HasPrefix(pointer, "0") {
+			if len(pointer) == 0 {
+				pointer = "0"
+			}
+			break
+		}
+	}
+	return pointer
 }

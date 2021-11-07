@@ -18,6 +18,7 @@ func main() {
 	dat, err := os.ReadFile("rom_2.gb")
 	check(err)
 
+	pointer := "0100"
 	hexArr := Chunks(hex.EncodeToString(dat), 2)
 	TITLEBYTES := Chunks(Read(hexArr, "134", "143"), 2)
 	TITLE := ""
@@ -43,6 +44,8 @@ func main() {
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.RayWhite)
+		pointer = exec(hexArr, pointer)
+		fmt.Println("Pointer: " + pointer)
 
 		// rl.DrawFPS(4, 4)
 
