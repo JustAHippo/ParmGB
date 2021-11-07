@@ -97,6 +97,9 @@ func Read(arr []string, from string, to string) string {
 }
 
 func normalizePointer(pointer string) string {
+	if !strings.HasPrefix(pointer, "0") {
+		return pointer
+	}
 	for {
 		pointer = pointer[1:]
 

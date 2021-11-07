@@ -2,27 +2,25 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	"math/big"
 )
 
 func exec(rom []string, addr string) string {
 	normalizedPointer := normalizePointer(addr)
 	instr := ReadOne(rom, normalizedPointer)
 
-	fmt.Println("Addr: " + normalizedPointer)
+	fmt.Print("Addr: " + normalizedPointer + " ")
 
-	return execInstr(rom, instr, normalizedPointer)
+	return execInstr(rom, instr, normalizedPointer, addr)
 }
 
-func execInstr(rom []string, instr string, normalizedPointer string) string {
-	i, err2 := strconv.ParseInt(normalizedPointer, 0, 32)
-
-	check(err2)
-	addrInt := int(i)
-	addrInt++
+func execInstr(rom []string, instr string, normalizedPointer string, orig string) string {
 
 	fmt.Println("INST: " + instr)
 
-	// TODO: How the fuck do I make this return the hexadecimal version of addrInt??????
-	return string("-1")
+	p1 := big.NewInt(0)
+	p1.SetString(orig, 16)
+	p2 := big.NewInt(1)
+
+	return fmt.Sprintf("%0x", p2.Add(p1, p2))
 }

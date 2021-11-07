@@ -15,7 +15,7 @@ func check(e error) {
 
 func main() {
 
-	dat, err := os.ReadFile("rom_2.gb")
+	dat, err := os.ReadFile("rom.gb")
 	check(err)
 
 	pointer := "0100"
@@ -45,7 +45,6 @@ func main() {
 
 		rl.ClearBackground(rl.RayWhite)
 		pointer = exec(hexArr, pointer)
-		fmt.Println("Pointer: " + pointer)
 
 		// rl.DrawFPS(4, 4)
 
