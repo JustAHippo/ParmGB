@@ -20,8 +20,10 @@ func execInstr(rom []string, instr string, normalizedPointer string, orig string
 	p1.SetString(orig, 16)
 	p2 := big.NewInt(1)
 	p3 := big.NewInt(2)
+	p4 := big.NewInt(3)
 	addrNext := fmt.Sprintf("%0x", p2.Add(p1, p2))
 	addrNextNext := fmt.Sprintf("%0x", p2.Add(p1, p3))
+	addrNextNextNext := fmt.Sprintf("%0x", p2.Add(p1, p4))
 
 	switch instr {
 	case "00": // NOP
@@ -31,7 +33,7 @@ func execInstr(rom []string, instr string, normalizedPointer string, orig string
 		a2 := ReadOne(rom, addrNext)
 		a1 := ReadOne(rom, addrNextNext)
 		fmt.Println("Unimplemented XOR: " + a1 + " " + a2)
-		break
+		return addrNextNextNext
 
 	case "c3": // JP ** **
 		// we read it in reverse bcs of little endian (I think)
