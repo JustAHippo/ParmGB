@@ -27,11 +27,17 @@ func execInstr(rom []string, instr string, normalizedPointer string, orig string
 	case "00": // NOP
 		break
 
-	case "c3": // JP
-		a1 := ReadOne(rom, addrNext)
-		a2 := ReadOne(rom, addrNextNext)
+	case "af": // XOR ** **
+		a2 := ReadOne(rom, addrNext)
+		a1 := ReadOne(rom, addrNextNext)
+		fmt.Println("Unimplemented XOR: " + a1 + " " + a2)
+		break
+
+	case "c3": // JP ** **
 		// we read it in reverse bcs of little endian (I think)
-		return a2 + a1
+		a2 := ReadOne(rom, addrNext)
+		a1 := ReadOne(rom, addrNextNext)
+		return a1 + a2
 	case "10": // STOP(Whatever is listed in IE Register)
 		//This would likely terminate whatever is specified in the IE Register
 		// 1. We have no implementation yet
