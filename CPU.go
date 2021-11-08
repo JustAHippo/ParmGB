@@ -38,6 +38,7 @@ func execInstr(rom []string, instr string, normalizedPointer string, orig string
 		// 2. We can't read sprite data or context that might make this not execute, but rather be sprite data or other usage.
 		// So for the time being, we'll simply print the fact that it should have happened
 		fmt.Println("Something should possibly have been stopped.")
+		break
 
 	default:
 		fmt.Println("Unknown inst: " + instr)
