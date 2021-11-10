@@ -3,8 +3,9 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/gen2brain/raylib-go/raylib"
 	"os"
+
+	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
 func check(e error) {
@@ -19,6 +20,7 @@ func main() {
 	check(err)
 
 	pointer := "0100"
+	stop := false
 	hexArr := Chunks(hex.EncodeToString(dat), 2)
 	TITLEBYTES := Chunks(Read(hexArr, "134", "143"), 2)
 	TITLE := ""
@@ -44,7 +46,10 @@ func main() {
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.RayWhite)
-		pointer = exec(hexArr, pointer)
+		if !stop {
+			pointer, stop = exec(hexArr, pointer)
+		}
+		rl.DrawText("PC: 0"+string(pointer)+"\nFPS: "+fmt.Sprintf("%d", int(rl.GetFPS())), 4, 4, 18, rl.Black)
 
 		// rl.DrawFPS(4, 4)
 
