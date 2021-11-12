@@ -9,11 +9,12 @@ func exec(rom []string, addr string) string {
 	normalizedPointer := normalizePointer(addr)
 	instr := ReadOne(rom, normalizedPointer)
 
-	fmt.Println("Addr: " + normalizedPointer + " ")
+	fmt.Println("; Addr: " + normalizedPointer + " ")
 
 	return execInstr(rom, instr, normalizedPointer, addr)
 }
 
+//goland:noinspection GoUnusedParameter
 func execInstr(rom []string, instr string, normalizedPointer string, orig string) string {
 
 	p1 := big.NewInt(0)
@@ -27,38 +28,84 @@ func execInstr(rom []string, instr string, normalizedPointer string, orig string
 
 	switch instr {
 	case "00": // NOP
+		fmt.Println("NOP ;00")
 		break
 
-	case "af": // XOR ** **
-		a2 := ReadOne(rom, addrNext)
-		a1 := ReadOne(rom, addrNextNext)
+	case "06": // TODO: Implement
+		a1 := ReadOne(rom, addrNext)
+
+		n1 := big.NewInt(0)
+		n1.SetString(a1, 16)
+
+		fmt.Println("ld b," + a1 + " ;" + a1)
+
+		return addrNextNext
+
+	case "0e": // TODO: Implement
+		a1 := ReadOne(rom, addrNext)
+
+		n1 := big.NewInt(0)
+		n1.SetString(a1, 16)
+
+		fmt.Println("ld c," + a1 + " ;0e " + a1)
+
+		return addrNextNext
+
+	case "10": // STOP(Whatever is listed in IE Register)
+		//This would likely terminate whatever is specified in the IE Register
+		// 1. We have no implementation yet
+		// 2. We can't read sprite data or context that might make this not execute, but rather be sprite data or other usage.
+		// So for the time being, we'll simply print the fact that it should have happened
+		fmt.Println("STOP ;10 Something should possibly have been stopped.")
+		break
+
+	case "21": // TODO: Implement
+		a1 := ReadOne(rom, addrNext)
+		a2 := ReadOne(rom, addrNextNext)
 
 		n1 := big.NewInt(0)
 		n2 := big.NewInt(0)
 		n1.SetString(a1, 16)
 		n2.SetString(a2, 16)
 
-		res := n1.Int64() ^ n2.Int64()
+		fmt.Println("ld " + a1 + ", " + a2 + " ;21 " + a2 + " " + a1)
 
-		fmt.Println("Unimplemented XOR: " + n1.String() + " " + n2.String() + " -> " + fmt.Sprintf("%d", res))
 		return addrNextNextNext
 
-	case "c3": // JP ** **
+	case "3e": // TODO: Implement
+		a1 := ReadOne(rom, addrNext)
+
+		n1 := big.NewInt(0)
+		n1.SetString(a1, 16)
+
+		fmt.Println("ld a, " + a1 + " ;" + a1)
+
+		return addrNextNext
+
+	case "20": // TODO: Implement
+		a1 := ReadOne(rom, addrNext)
+
+		n1 := big.NewInt(0)
+		n1.SetString(a1, 16)
+
+		fmt.Println("jr nz, " + a1 + " ;20 " + a1)
+
+		return addrNextNext
+
+	case "af": // TODO: Implement
+
+		fmt.Println(";xor a")
+		return addrNext
+
+	case "c3":
 		// we read it in reverse bcs of little endian (I think)
 		a2 := ReadOne(rom, addrNext)
 		a1 := ReadOne(rom, addrNextNext)
-		fmt.Println("Jumping to: $" + a1 + a2)
+		fmt.Println("jp " + a1 + a2 + " ;C3" + " " + a2 + " " + a1)
 		return a1 + a2
-	case "10": // STOP(Whatever is listed in IE Register)
-		//This would likely terminate whatever is specified in the IE Register
-		// 1. We have no implementation yet
-		// 2. We can't read sprite data or context that might make this not execute, but rather be sprite data or other usage.
-		// So for the time being, we'll simply print the fact that it should have happened
-		fmt.Println("Something should possibly have been stopped.")
-		break
 
 	default:
-		fmt.Println("Unknown inst: " + instr)
+		fmt.Println(";Unknown inst: " + instr)
 
 	}
 
