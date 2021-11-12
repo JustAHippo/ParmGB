@@ -45,8 +45,8 @@ func main() {
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.RayWhite)
-		pointer = exec(hexArr, pointer)
 		rl.DrawText("PC: 0"+string(pointer)+"\nFPS: "+fmt.Sprintf("%d", int(rl.GetFPS())), 4, 4, 18, rl.Black)
+		pointer = exec(hexArr, pointer)
 
 		// rl.DrawFPS(4, 4)
 
